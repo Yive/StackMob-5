@@ -1,6 +1,5 @@
 package uk.antiperson.stackmob;
 
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -45,7 +44,6 @@ public class StackMob extends JavaPlugin {
     private Updater updater;
     private ItemTools itemTools;
     private PlayerManager playerManager;
-    private BukkitAudiences adventure;
     private Scheduler scheduler;
 
     private boolean stepDamageError;
@@ -64,7 +62,6 @@ public class StackMob extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        adventure = BukkitAudiences.create(this);
         traitManager = new TraitManager(this);
         entityManager = new EntityManager(this);
         config = new MainConfig(this);
@@ -130,10 +127,6 @@ public class StackMob extends JavaPlugin {
     public void onDisable() {
         getEntityManager().unregisterAllEntities();
         Bukkit.getOnlinePlayers().forEach(player -> getPlayerManager().stopWatching(player));
-        if (adventure != null) {
-            adventure.close();
-            adventure = null;
-        }
     }
 
     private void registerEvents() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -217,13 +210,6 @@ public class StackMob extends JavaPlugin {
 
     public ItemTools getItemTools() {
         return itemTools;
-    }
-
-    public BukkitAudiences getAdventure() {
-        if (adventure == null) {
-            throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
-        }
-        return this.adventure;
     }
 
     public boolean isStepDamageError() {
