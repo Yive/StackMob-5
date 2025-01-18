@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.packets.PlayerWatcher;
-import uk.antiperson.stackmob.utils.Utilities;
 
 import java.util.ArrayList;
 
@@ -19,20 +18,14 @@ public class TagMoveTask extends BukkitRunnable {
     @Override
     public void run() {
         ArrayList<Player> playerArrayList = new ArrayList<>(Bukkit.getOnlinePlayers());
-        sm.getScheduler().runTaskAsynchronously(() -> {
-            for (Player player : playerArrayList) {
+        for (Player player : playerArrayList) {
+            sm.getScheduler().runTask(player, () -> {
                 PlayerWatcher playerWatcher = sm.getPlayerManager().getPlayerWatcher(player);
                 if (playerWatcher == null) {
-                    continue;
+                    return;
                 }
-
-                Runnable runnable = playerWatcher::updateTagLocations;
-                if (Utilities.IS_FOLIA) {
-                    sm.getScheduler().runTask(player, runnable);
-                } else {
-                    runnable.run();
-                }
-            }
-        });
+                playerWatcher.updateTagLocations();
+            });
+        }
     }
 }
