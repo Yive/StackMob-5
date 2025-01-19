@@ -31,7 +31,7 @@ public class DisplayEntity implements FakeArmorStand {
 
     @Override
     public void updateName(Component newName) {
-        display.setCustomName(LegacyComponentSerializer.legacySection().serialize(newName));
+        display.customName(newName);
     }
 
     @Override
