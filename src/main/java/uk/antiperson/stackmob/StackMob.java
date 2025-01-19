@@ -5,28 +5,23 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.InvalidPluginException;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.antiperson.stackmob.commands.Commands;
 import uk.antiperson.stackmob.config.EntityTranslation;
 import uk.antiperson.stackmob.config.MainConfig;
 import uk.antiperson.stackmob.entity.EntityManager;
+import uk.antiperson.stackmob.entity.tags.DisplayTagListeners;
 import uk.antiperson.stackmob.entity.traits.TraitManager;
 import uk.antiperson.stackmob.hook.HookManager;
 import uk.antiperson.stackmob.listeners.*;
-import uk.antiperson.stackmob.packets.PlayerManager;
 import uk.antiperson.stackmob.scheduler.BukkitScheduler;
 import uk.antiperson.stackmob.scheduler.FoliaScheduler;
 import uk.antiperson.stackmob.scheduler.Scheduler;
 import uk.antiperson.stackmob.tasks.MergeTask;
-import uk.antiperson.stackmob.tasks.TagCheckTask;
-import uk.antiperson.stackmob.tasks.TagMoveTask;
 import uk.antiperson.stackmob.utils.ItemTools;
 import uk.antiperson.stackmob.utils.Updater;
 import uk.antiperson.stackmob.utils.Utilities;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
@@ -43,7 +38,6 @@ public class StackMob extends JavaPlugin {
     private EntityManager entityManager;
     private Updater updater;
     private ItemTools itemTools;
-    private PlayerManager playerManager;
     private Scheduler scheduler;
 
     private boolean stepDamageError;
@@ -68,7 +62,6 @@ public class StackMob extends JavaPlugin {
         entityTranslation = new EntityTranslation(this);
         updater = new Updater(this, 29999);
         itemTools = new ItemTools(this);
-        playerManager = new PlayerManager(this);
         getLogger().info("StackMob v" + getDescription().getVersion() + " by antiPerson and contributors.");
         getLogger().info("GitHub: " + Utilities.GITHUB + " Discord: " + Utilities.DISCORD);
         getLogger().info("Loading config files...");
@@ -99,10 +92,8 @@ public class StackMob extends JavaPlugin {
         commands.registerSubCommands();
         int stackInterval = getMainConfig().getConfig().getStackInterval();
         getScheduler().runGlobalTaskTimer(new MergeTask(this), 20, stackInterval);
-        int tagInterval = getMainConfig().getConfig().getTagNearbyInterval();
-        getScheduler().runGlobalTaskTimer(new TagCheckTask(this), 30, tagInterval);
         if (getMainConfig().getConfig().isUseArmorStand()) {
-            getScheduler().runGlobalTaskTimer(new TagMoveTask(this), 10, 1);
+            getServer().getPluginManager().registerEvents(new DisplayTagListeners(this), this);
         }
         getLogger().info("Detected server version " + Utilities.getMinecraftVersion());
         if (getHookManager().getProtocolLibHook() == null) {
@@ -126,11 +117,9 @@ public class StackMob extends JavaPlugin {
     @Override
     public void onDisable() {
         getEntityManager().unregisterAllEntities();
-        Bukkit.getOnlinePlayers().forEach(player -> getPlayerManager().stopWatching(player));
     }
 
     private void registerEvents() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        registerEvent(PlayerArmorStandListener.class);
         registerEvent(BucketListener.class);
         registerEvent(DeathListener.class);
         registerEvent(TransformListener.class);
@@ -190,10 +179,6 @@ public class StackMob extends JavaPlugin {
 
     public HookManager getHookManager() {
         return hookManager;
-    }
-
-    public PlayerManager getPlayerManager() {
-        return playerManager;
     }
 
     public Updater getUpdater() {

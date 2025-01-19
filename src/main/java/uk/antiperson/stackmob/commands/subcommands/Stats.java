@@ -7,8 +7,6 @@ import uk.antiperson.stackmob.commands.CommandMetadata;
 import uk.antiperson.stackmob.commands.SubCommand;
 import uk.antiperson.stackmob.commands.User;
 import uk.antiperson.stackmob.entity.StackEntity;
-import uk.antiperson.stackmob.packets.PlayerWatcher;
-import uk.antiperson.stackmob.packets.TagHandler;
 
 import java.util.Arrays;
 
@@ -56,18 +54,6 @@ public class Stats extends SubCommand {
         int trackingOverall = 0;
         int trackingStacks = 0;
         int visible = 0;
-        for (PlayerWatcher playerWatcher : sm.getPlayerManager().geWatchers()) {
-            trackingOverall += 1;
-            if (!playerWatcher.getPlayer().equals(sender.getSender())) {
-                continue;
-            }
-            for (TagHandler tagHandler : playerWatcher.getTagHandlers()) {
-                trackingStacks += 1;
-                if (tagHandler.isTagVisible()) {
-                    visible += 1;
-                }
-            }
-        }
         int notVisible = trackingStacks - visible;
         sender.sendInfo("Player statistics:");
         sender.sendRawMessage("We are tracking " + trackingOverall + " players.");

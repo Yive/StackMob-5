@@ -14,7 +14,6 @@ import org.bukkit.entity.WaterMob;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityKnockbackEvent;
-import org.stringtemplate.v4.ST;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackEntity;
 import uk.antiperson.stackmob.entity.death.DeathType;
@@ -130,8 +129,8 @@ public class EntityConfig {
         return tagMode;
     }
 
-    public Integer[] getTagNearbyRadius() {
-        return getIntList("display-name.nearby.range").toArray(new Integer[2]);
+    public float getTagNearbyRadius() {
+        return getInt("display-name.nearby.radius");
     }
 
     public int getTagNearbyInterval() {
