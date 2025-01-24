@@ -44,6 +44,11 @@ public class StackMob extends JavaPlugin {
 
     @Override
     public void onLoad() {
+        if (!Utilities.isPaper()) {
+            getLogger().severe("It has been detected that you are not using Paper (https://papermc.io).");
+            getLogger().severe("StackMob makes use of Paper's API, which means this version of the plugin will not work. Disabling.");
+            getServer().getPluginManager().disablePlugin(this);
+        }
         hookManager = new HookManager(this);
         try {
             hookManager.registerOnLoad();
@@ -107,10 +112,7 @@ public class StackMob extends JavaPlugin {
                 case AVAILABLE: getLogger().info("A new version is currently available. (" + updateResult.getNewVersion() + ")"); break;
             }
         }));
-        if (!Utilities.isPaper()) {
-            getLogger().warning("It has been detected that you are not using Paper (https://papermc.io).");
-            getLogger().warning("StackMob makes use of Paper's API, which means you're missing out on features.");
-        }
+
         new Metrics(this, 522);
     }
 
