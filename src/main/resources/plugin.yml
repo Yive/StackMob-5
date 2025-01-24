@@ -3,7 +3,6 @@ main: uk.antiperson.stackmob.StackMob
 version: ${project.version}
 api-version: 1.16
 folia-supported: true
-depend: [ProtocolLib]
 softdepend: [WorldGuard, MythicMobs, ClearLag, MyPet, mcMMO, Jobs, Citizens]
 author: antiPerson
 website: https://modrinth.com/plugin/stackmob
