@@ -75,20 +75,18 @@ public class Utilities {
         return numbers;
     }
 
-    public static CompletableFuture<DownloadResult> downloadFile(File filePath, String url) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                URL webPath = new URL(url);
-                try (InputStream in = webPath.openStream()) {
-                    Files.createDirectories(filePath.getParentFile().toPath());
-                    Files.copy(in, filePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                }
-                return DownloadResult.SUCCESSFUL;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return DownloadResult.ERROR;
+    public static DownloadResult downloadFile(File filePath, String url) {
+        try {
+            URL webPath = new URL(url);
+            try (InputStream in = webPath.openStream()) {
+                Files.createDirectories(filePath.getParentFile().toPath());
+                Files.copy(in, filePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
-        });
+            return DownloadResult.SUCCESSFUL;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return DownloadResult.ERROR;
+        }
     }
 
     public static boolean isPaper() {

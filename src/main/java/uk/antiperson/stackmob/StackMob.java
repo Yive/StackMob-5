@@ -65,7 +65,7 @@ public class StackMob extends JavaPlugin {
         entityManager = new EntityManager(this);
         config = new MainConfig(this);
         entityTranslation = new EntityTranslation(this);
-        updater = new Updater(this, 29999);
+        updater = new Updater(this, "stackmob");
         itemTools = new ItemTools(this);
         getLogger().info("StackMob v" + getDescription().getVersion() + " by antiPerson and contributors.");
         getLogger().info("GitHub: " + Utilities.GITHUB + " Discord: " + Utilities.DISCORD);
