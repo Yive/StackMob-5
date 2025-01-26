@@ -122,11 +122,7 @@ public class EntityConfig {
     }
 
     public StackEntity.TagMode getTagMode() {
-        StackEntity.TagMode tagMode = StackEntity.TagMode.valueOf(getString("display-name.visibility"));
-        if (sm.getHookManager().getProtocolLibHook() == null && tagMode == StackEntity.TagMode.NEARBY) {
-            tagMode = StackEntity.TagMode.HOVER;
-        }
-        return tagMode;
+        return StackEntity.TagMode.valueOf(getString("display-name.visibility"));
     }
 
     public float getTagNearbyRadius() {
