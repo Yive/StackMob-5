@@ -101,9 +101,6 @@ public class StackMob extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new DisplayTagListeners(this), this);
         }
         getLogger().info("Detected server version " + Utilities.getMinecraftVersion());
-        if (getHookManager().getProtocolLibHook() == null) {
-            getLogger().warning("ProtocolLib could not be found (or has been disabled). The display name visibility setting 'NEARBY' will not work unless this is fixed.");
-        }
         getEntityManager().registerAllEntities();
         getUpdater().checkUpdate().whenComplete(((updateResult, throwable) -> {
             switch (updateResult.getResult()) {
