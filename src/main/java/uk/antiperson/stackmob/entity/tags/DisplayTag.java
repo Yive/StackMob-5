@@ -25,7 +25,6 @@ public class DisplayTag {
     }
 
     public void spawn() {
-        sm.getLogger().info("spawning display");
         display = (TextDisplay) stackEntity.getWorld().spawnEntity(calculateLocation(stackEntity.getEntity().getLocation()), EntityType.TEXT_DISPLAY);
         display.setBillboard(Display.Billboard.CENTER);
         display.setTeleportDuration(1);
