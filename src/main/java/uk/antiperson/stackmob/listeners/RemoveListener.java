@@ -30,9 +30,6 @@ public class RemoveListener implements Listener {
             return;
         }
         sm.getEntityManager().unregisterStackedEntity(stackEntity);
-        if (stackEntity.getDisplayTag().exists()) {
-            stackEntity.getDisplayTag().remove();
-        }
     }
 
     @EventHandler

@@ -33,6 +33,7 @@ public class DisplayTag {
             float multiplier = stackEntity.getEntityConfig().getTagNearbyRadius() / readTrackingRange();
             display.setViewRange(multiplier);
         }
+        display.setPersistent(false);
         updateName(stackEntity.getTag().getDisplayName());
     }
 
