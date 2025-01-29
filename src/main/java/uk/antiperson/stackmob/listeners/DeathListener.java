@@ -52,7 +52,6 @@ public class DeathListener implements Listener {
                 stackEntity.incrementSize(-deathStep);
                 deathMethod.onSpawn(stackEntity);
             } else {
-                stackEntity.removeStackData();
                 int finalDeathStep = deathStep;
                 sm.getScheduler().runTask(event.getEntity(), () -> {
                     StackEntity spawned = stackEntity.duplicate();
@@ -60,6 +59,9 @@ public class DeathListener implements Listener {
                     deathMethod.onSpawn(spawned);
                 });
             }
+        }
+        if (!stackEntity.getEntityConfig().isSkipDeathAnimation()) {
+            stackEntity.removeStackData();
         }
         if (toMultiply == 0) {
             return;
