@@ -238,6 +238,9 @@ public class StackEntity {
             getWorld().dropItemNaturally(entity.getLocation(), leash);
         }
         dropEquipItems();
+        if (getDisplayTag().exists()) {
+            getDisplayTag().remove();
+        }
     }
 
     /**
