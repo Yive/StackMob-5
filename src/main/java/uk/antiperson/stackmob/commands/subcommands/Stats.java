@@ -1,8 +1,6 @@
 package uk.antiperson.stackmob.commands.subcommands;
 
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.commands.ArgumentType;
-import uk.antiperson.stackmob.commands.CommandArgument;
 import uk.antiperson.stackmob.commands.CommandMetadata;
 import uk.antiperson.stackmob.commands.SubCommand;
 import uk.antiperson.stackmob.commands.User;
@@ -13,7 +11,6 @@ public class Stats extends SubCommand {
 
     private final StackMob sm;
     public Stats(StackMob sm) {
-        super(CommandArgument.construct(ArgumentType.STRING, false));
         this.sm = sm;
     }
 
