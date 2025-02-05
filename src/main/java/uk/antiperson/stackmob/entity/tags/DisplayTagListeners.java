@@ -2,6 +2,7 @@ package uk.antiperson.stackmob.entity.tags;
 
 import io.papermc.paper.event.entity.EntityMoveEvent;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,10 +36,13 @@ public class DisplayTagListeners implements Listener {
 
     @EventHandler
     public void onEntityRemove(EntityRemoveEvent event) {
+        if (!(event.getEntity() instanceof LivingEntity)) {
+            return;
+        }
         if (event.getCause() == EntityRemoveEvent.Cause.UNLOAD) {
             return;
         }
-        StackEntity stackEntity = sm.getEntityManager().getStackEntity(event.getEntity());
+        StackEntity stackEntity = sm.getEntityManager().getStackEntity((LivingEntity) event.getEntity());
         if (stackEntity == null) {
             return;
         }
