@@ -5,6 +5,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityRemoveEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackEntity;
@@ -30,5 +31,19 @@ public class DisplayTagListeners implements Listener {
             return;
         }
         stackEntity.getTag().update();
+    }
+
+    @EventHandler
+    public void onEntityRemove(EntityRemoveEvent event) {
+        if (event.getCause() == EntityRemoveEvent.Cause.UNLOAD) {
+            return;
+        }
+        StackEntity stackEntity = sm.getEntityManager().getStackEntity(event.getEntity());
+        if (stackEntity == null) {
+            return;
+        }
+        if (stackEntity.getDisplayTag().exists()) {
+            stackEntity.getDisplayTag().remove();
+        }
     }
 }
