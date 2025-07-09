@@ -583,7 +583,7 @@ public class StackEntity {
             LivingEntity entity = getEntity();
             int threshold = getEntityConfig().getTagThreshold();
             if (getSize() <= threshold) {
-                if (getEntityConfig().isUseArmorStand()) {
+                if (getEntityConfig().isUseArmorStand() && getEntityConfig().getTagMode() == TagMode.NEARBY) {
                     if (getDisplayTag().exists()) {
                         getDisplayTag().remove();
                     }
@@ -597,7 +597,7 @@ public class StackEntity {
             format = format.replace("%type%", getEntityName());
             format = format.replace("%size%", getSize() + "");
             displayName = Utilities.createComponent(format);
-            if (getEntityConfig().isUseArmorStand()) {
+            if (getEntityConfig().isUseArmorStand() && getEntityConfig().getTagMode() == TagMode.NEARBY) {
                 if (!getDisplayTag().exists()) {
                     getDisplayTag().spawn();
                 }

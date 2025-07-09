@@ -10,6 +10,7 @@ import uk.antiperson.stackmob.commands.Commands;
 import uk.antiperson.stackmob.config.EntityTranslation;
 import uk.antiperson.stackmob.config.MainConfig;
 import uk.antiperson.stackmob.entity.EntityManager;
+import uk.antiperson.stackmob.entity.StackEntity;
 import uk.antiperson.stackmob.entity.tags.DisplayTagListeners;
 import uk.antiperson.stackmob.entity.traits.TraitManager;
 import uk.antiperson.stackmob.hook.HookManager;
@@ -102,7 +103,7 @@ public class StackMob extends JavaPlugin {
         commands.registerSubCommands();
         int stackInterval = getMainConfig().getConfig().getStackInterval();
         getScheduler().runGlobalTaskTimer(new MergeTask(this), 20, stackInterval);
-        if (getMainConfig().getConfig().isUseArmorStand()) {
+        if (getMainConfig().getConfig().isUseArmorStand() && getMainConfig().getConfig().getTagMode() == StackEntity.TagMode.NEARBY) {
             getServer().getPluginManager().registerEvents(new DisplayTagListeners(this), this);
         }
         getLogger().info("Detected server version " + Utilities.getMinecraftVersion());
